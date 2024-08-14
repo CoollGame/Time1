@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>3D Disco Galaxy Animation</title>
+    <style>
+        body {
+            margin: 0;
+            overflow: hidden;
+            background-color: black;
+            perspective: 1000px;
+        }
+
+        .square {
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            border: 2px solid #fff;
+            transform-style: preserve-3d;
+        }
+    </style>
+</head>
+<body>
+    <script>
+        const canvasWidth = window.innerWidth;
+        const canvasHeight = window.innerHeight;
+        const numSquares = 100;
+        const maxRadius = Math.min(canvasWidth, canvasHeight) / 2 - 50;
+        const centerX = canvasWidth / 2;
+        const centerY = canvasHeight / 2;
+        const speed = 0.02; // Speed of rotation
+
+        for (let i = 0; i < numSquares; i++) {
+            const square = document.createElement('div');
+            square.className = 'square';
+            document.body.appendChild(square);
+
+            const angle = Math.random() * 2 * Math.PI;
+            const radius = Math.random() * maxRadius;
+            const zDepth = Math.random() * 800 - 400; // Depth for 3D effect
+
+            const updatePosition = () => {
+                const x = centerX + radius * Math.cos(angle + speed * Date.now() / 1000);
+                const y = centerY + radius * Math.sin(angle + speed * Date.now() / 1000);
+                const z = zDepth * Math.sin(speed * Date.now() / 1000); // Adjust Z for 3D effect
+
+                square.style.transform = `translate3d(${x}px, ${y}px, ${z}px) rotate3d(1, 1, 1, ${Date.now() / 10}deg)`;
+            };
+
+            setInterval(updatePosition, 16); // Update every 16ms (~60fps)
+        }
+    </script>
+</body>
+</html>
